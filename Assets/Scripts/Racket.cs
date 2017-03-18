@@ -15,9 +15,9 @@ public class Racket : MonoBehaviour
 	{
 		m_width = racketObj.GetComponent<Collider>().bounds.size.x;
 		m_halfWidth = m_width / 2;
-		cameraWidth = 2f * Camera.main.orthographicSize * Camera.main.aspect;
-		m_screenLeft = transform.position.x - cameraWidth / 2;
-		m_screenRight = transform.position.x + cameraWidth / 2;
+		float halfCameraWidth = Camera.main.orthographicSize * Camera.main.aspect;
+		m_screenLeft = transform.position.x - halfCameraWidth;
+		m_screenRight = transform.position.x + halfCameraWidth;
 	}
 	
 	void Update()
@@ -32,11 +32,14 @@ public class Racket : MonoBehaviour
 			direction = Direction.Right;
 		}
 		racketObj.transform.Translate((float)direction * m_xSpeed, 0, 0, Space.Self);
+		if (Input.GetKey("space"))
+		{
+			Debug.Log("Space");
+		}
 	}
 
 	public GameObject racketObj;
 	private float m_xSpeed = 0.7f;
-	private float cameraWidth = 0;
 	private float m_width = 0;
 	private float m_halfWidth = 0;
 	private float m_screenLeft = 0;
