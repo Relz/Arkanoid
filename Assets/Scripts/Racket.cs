@@ -1,16 +1,21 @@
 ﻿using UnityEngine;
 
-public enum Direction
+public enum DirectionX
 {
 	None = 0,
 	Right = 1,
 	Left = -1
 }
 
+public enum DirectionY
+{
+	None = 0,
+	Up = 1,
+	Down = -1
+}
+
 public class Racket : MonoBehaviour 
 {
-	public delegate void onMove(float x, float y = 0, float z = 0);
-
 	void Start () 
 	{
 		m_width = racketObj.GetComponent<Collider>().bounds.size.x;
@@ -18,30 +23,37 @@ public class Racket : MonoBehaviour
 		float halfCameraWidth = Camera.main.orthographicSize * Camera.main.aspect;
 		m_screenLeft = transform.position.x - halfCameraWidth;
 		m_screenRight = transform.position.x + halfCameraWidth;
+		ballRigidbody = ball.GetComponent<Rigidbody>();
 	}
 	
 	void Update()
 	{
-		Direction direction = Direction.None;
-        if (Input.GetKey("left") && racketObj.transform.position.x - m_halfWidth > m_screenLeft)
+		DirectionX direction = DirectionX.None;
+        if (Input.GetKey(KeyCode.LeftArrow) && racketObj.transform.position.x - m_halfWidth > m_screenLeft)
 		{
-			direction = Direction.Left;
+			direction = DirectionX.Left;
+			m_lastDirection = direction;
 		}
-		if (Input.GetKey("right") && racketObj.transform.position.x + m_halfWidth < m_screenRight)
+		if (Input.GetKey(KeyCode.RightArrow) && racketObj.transform.position.x + m_halfWidth < m_screenRight)
 		{
-			direction = Direction.Right;
+			direction = DirectionX.Right;
+			m_lastDirection = direction;
 		}
-		racketObj.transform.Translate((float)direction * m_xSpeed, 0, 0, Space.Self);
-		if (Input.GetKey("space"))
+		racketObj.transform.Translate((float)direction * Constant.RACKET_SPEED, 0, 0, Space.Self);
+		if (!m_doesStarted && Input.GetKey(KeyCode.Space))
 		{
-			Debug.Log("Space");
+			m_doesStarted = true;
+			ballRigidbody.AddForce((float)m_lastDirection * Constant.BALL_SPEED * Constant.BALL_SPEED_MULTIPLIER, Constant.BALL_SPEED * Constant.BALL_SPEED_MULTIPLIER, 0);
 		}
 	}
 
 	public GameObject racketObj;
-	private float m_xSpeed = 0.7f;
+	public GameObject ball;
+	public Rigidbody ballRigidbody;
 	private float m_width = 0;
 	private float m_halfWidth = 0;
 	private float m_screenLeft = 0;
 	private float m_screenRight = 0;
+	private DirectionX m_lastDirection = DirectionX.None;
+	private bool m_doesStarted = false;
 }
