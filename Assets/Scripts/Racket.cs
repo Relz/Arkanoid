@@ -18,42 +18,56 @@ public class Racket : MonoBehaviour
 {
 	void Start () 
 	{
-		m_width = racketObj.GetComponent<Collider>().bounds.size.x;
+		m_racket = gameObject;
+		m_width = gameObject.GetComponent<Collider>().bounds.size.x;
 		m_halfWidth = m_width / 2;
 		float halfCameraWidth = Camera.main.orthographicSize * Camera.main.aspect;
 		m_screenLeft = transform.position.x - halfCameraWidth;
 		m_screenRight = transform.position.x + halfCameraWidth;
-		ballRigidbody = ball.GetComponent<Rigidbody>();
+		m_ballRigidbody = ballObj.GetComponent<Rigidbody>();
 	}
 	
 	void Update()
 	{
 		DirectionX direction = DirectionX.None;
-        if (Input.GetKey(KeyCode.LeftArrow) && racketObj.transform.position.x - m_halfWidth > m_screenLeft)
+        if (Input.GetKey(KeyCode.LeftArrow) && gameObject.transform.position.x - m_halfWidth > m_screenLeft)
 		{
 			direction = DirectionX.Left;
 			m_lastDirection = direction;
 		}
-		if (Input.GetKey(KeyCode.RightArrow) && racketObj.transform.position.x + m_halfWidth < m_screenRight)
+		if (Input.GetKey(KeyCode.RightArrow) && gameObject.transform.position.x + m_halfWidth < m_screenRight)
 		{
 			direction = DirectionX.Right;
 			m_lastDirection = direction;
 		}
-		racketObj.transform.Translate((float)direction * Constant.RACKET_SPEED, 0, 0, Space.Self);
+		gameObject.transform.Translate((float)direction * Constant.RACKET_SPEED, 0, 0, Space.Self);
+		if (!m_doesStarted)
+		{
+			ballObj.transform.Translate((float)direction * Constant.RACKET_SPEED, 0, 0, Space.Self);
+		}
 		if (!m_doesStarted && Input.GetKey(KeyCode.Space))
 		{
 			m_doesStarted = true;
-			ballRigidbody.AddForce((float)m_lastDirection * Constant.BALL_SPEED * Constant.BALL_SPEED_MULTIPLIER, Constant.BALL_SPEED * Constant.BALL_SPEED_MULTIPLIER, 0);
+			m_ballRigidbody.AddRelativeForce(
+				(float)m_lastDirection * Constant.BALL_SPEED * Constant.BALL_SPEED_MULTIPLIER / 2, 
+				Constant.BALL_SPEED * Constant.BALL_SPEED_MULTIPLIER, 
+				0);
 		}
 	}
 
-	public GameObject racketObj;
-	public GameObject ball;
-	public Rigidbody ballRigidbody;
-	private float m_width = 0;
-	private float m_halfWidth = 0;
-	private float m_screenLeft = 0;
-	private float m_screenRight = 0;
-	private DirectionX m_lastDirection = DirectionX.None;
-	private bool m_doesStarted = false;
+	public static void Reset()
+	{
+		m_doesStarted = false;
+		m_racket.transform.position = new Vector3(0, -8.8f, 0);
+	}
+
+	public GameObject ballObj;
+	private static GameObject m_racket;
+	private static Rigidbody m_ballRigidbody;
+	private static float m_width = 0;
+	private static float m_halfWidth = 0;
+	private static float m_screenLeft = 0;
+	private static float m_screenRight = 0;
+	private static DirectionX m_lastDirection = DirectionX.None;
+	private static bool m_doesStarted = false;
 }
