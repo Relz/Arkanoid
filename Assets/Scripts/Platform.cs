@@ -5,26 +5,22 @@ public class Platform : MonoBehaviour
 	void Start()
 	{
 		m_renderer = gameObject.GetComponent<Renderer>();
-				m_renderer.material.color = new Color(1, 0, 0, 1);
+		m_renderer.material.color = Constant.PLATFORM.COLORS[hp - 1];
 	}
 
 	void OnCollisionEnter(Collision col)
 	{
-		--hp;
-		switch (hp)
+		hp -= Racket.GetStrength();
+		if (hp <= 0)
 		{
-			case 2:
-				m_renderer.material.color = new Color(0, 1, 0, 1);
-				break;
-			case 1:
-				m_renderer.material.color = new Color(0, 0, 1, 1);
-				break;
-			case 0:
-				Destroy(gameObject);
-				break;
+			Destroy(gameObject);
+		}
+		else
+		{
+			m_renderer.material.color = Constant.PLATFORM.COLORS[hp - 1];
 		}
 	}
 
 	private Renderer m_renderer;
-	public uint hp = 3;
+	public int hp = 3;
 }

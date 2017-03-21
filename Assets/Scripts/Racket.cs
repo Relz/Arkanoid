@@ -61,6 +61,11 @@ public class Racket : MonoBehaviour
 		m_racket.transform.position = new Vector3(0, -8.8f, 0);
 	}
 
+	public static int GetStrength()
+	{
+		return m_strength;
+	}
+
 	public GameObject ballObj;
 	private static GameObject m_racket;
 	private static Rigidbody m_ballRigidbody;
@@ -70,4 +75,5 @@ public class Racket : MonoBehaviour
 	private static float m_screenRight = 0;
 	private static DirectionX m_lastDirection = DirectionX.None;
 	private static bool m_doesStarted = false;
+	private static int m_strength = 1;
 }
