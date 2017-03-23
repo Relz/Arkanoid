@@ -4,14 +4,16 @@ public class CameraScript : MonoBehaviour
 {
 	void Update()
 	{
-		// transform.rotation = Quaternion.Euler(0, (transform.rotation.y + dYRotationValue) * Time.deltaTime, 0);
-		// if (transform.rotation.y >= 1 || transform.rotation.y <= -1)
-		// {
-		// 	dYRotationValue = -dYRotationValue;
-		// Debug.Log(transform.rotation.y);
-		// }
+		Vector3 position = gameObject.transform.position;
+		Quaternion rotation = gameObject.transform.rotation;
+		position.x = racket.transform.position.x / 10;
+		position.y = ball.transform.position.y / 10;
+		rotation.y = -position.x / 20;
+		rotation.x = position.y / 10;
+		gameObject.transform.position = position;
+		gameObject.transform.rotation = rotation;
 	}
 
-	// private float dYRotationValue = 100.0f;
-
+	public GameObject racket;
+	public GameObject ball;
 }

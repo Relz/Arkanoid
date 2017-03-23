@@ -15,4 +15,11 @@ public static class Constant
 			Color.green
 		};
 	}
+
+	public static class MAP
+	{
+		public const string PATH = "Maps/";
+		public const string NAME_PREFIX = "map";
+		public const char PLATFORM_CHAR = '#';
+	}
 }
