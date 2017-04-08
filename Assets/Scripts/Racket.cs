@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 
 public enum DirectionX
 {
@@ -26,6 +27,9 @@ public class Racket : MonoBehaviour
 		m_leftWalRight = leftWallObj.transform.position.x + leftWallCollider.x;
 		m_rightWallLeft = rightWallObj.transform.position.x - rightWallCollider.x;
 		m_ballRigidbody = ballObj.GetComponent<Rigidbody>();
+		m_source = gameObject.GetComponent<AudioSource>();
+		m_livesValueObjText = livesValueObj.GetComponent<Text>();
+		m_livesValueObjText.text = m_lives.ToString();
 	}
 	
 	void Update()
@@ -56,6 +60,14 @@ public class Racket : MonoBehaviour
 		}
 	}
 
+	void Awake()
+	{
+		m_lives = Constant.RACKET.HP;
+		m_strength = 1;
+		m_doesStarted = false;
+		m_lastDirection = DirectionX.None;
+	}
+
 	public static void Reset()
 	{
 		m_doesStarted = false;
@@ -72,7 +84,7 @@ public class Racket : MonoBehaviour
 		return m_doesStarted;
 	}
 
-	public static uint GetLives()
+	public static int GetLives()
 	{
 		return m_lives;
 	}
@@ -80,11 +92,20 @@ public class Racket : MonoBehaviour
 	public static void DecrementLives()
 	{
 		--m_lives;
+		m_livesValueObjText.text = m_lives.ToString();
+	}
+	void OnCollisionEnter(Collision col)
+	{
+		m_source.PlayOneShot(touchSound);
 	}
 
 	public GameObject ballObj;
 	public GameObject leftWallObj;
 	public GameObject rightWallObj;
+	public AudioClip touchSound;
+	public GameObject livesValueObj;
+	private static Text m_livesValueObjText;
+	private AudioSource m_source;
 	private static GameObject m_racket;
 	private static Rigidbody m_ballRigidbody;
 	private static float m_width = 0;
@@ -94,5 +115,5 @@ public class Racket : MonoBehaviour
 	private static DirectionX m_lastDirection = DirectionX.None;
 	private static bool m_doesStarted = false;
 	private static int m_strength = 1;
-	private static uint m_lives = Constant.RACKET.HP;
+	private static int m_lives = Constant.RACKET.HP;
 }

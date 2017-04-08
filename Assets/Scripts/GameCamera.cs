@@ -16,11 +16,11 @@ public class GameCamera : MonoBehaviour
 		rotation.x = position.y / 20;
 		gameObject.transform.position = position;
 		gameObject.transform.rotation = rotation;
-	}
 
-	public static void SetActive(bool value)
-	{
-		gameCamera.enabled = value;
+		if (Input.GetKey(KeyCode.Escape))
+		{
+			Application.LoadLevel(0);
+		}
 	}
 
 	public GameObject racket;
