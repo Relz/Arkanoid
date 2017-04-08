@@ -8,7 +8,8 @@ public class Level : MonoBehaviour
 	void Start()
 	{
 		List<List<List<bool>>> maps = ReadMaps();
-		int mapIndex = new System.Random().Next(0, maps.Count);
+		int mapIndex = 0;
+		mapIndex = (m_level == int.MaxValue) ? mapIndex = new System.Random().Next(0, maps.Count) : m_level - 1;
 
 		float halfCameraHeight = Camera.main.orthographicSize;
 		float halfCameraWidth = Camera.main.orthographicSize * Camera.main.aspect;
@@ -75,5 +76,11 @@ public class Level : MonoBehaviour
 		return result;
 	}
 
+	public static void SetLevel(int value)
+	{
+		m_level = value;
+	}
+
 	public Transform platform;
+	private static int m_level = int.MaxValue;
 }

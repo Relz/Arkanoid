@@ -1,9 +1,16 @@
 ﻿using UnityEngine;
-public static class Constant 
+public static class Constant
 {
-	public const float RACKET_SPEED = 0.7f;
-	public const float BALL_SPEED = 0.4f;
-	public const float BALL_SPEED_MULTIPLIER = 2600; // Для единой системы скорости BALL_SPEED и RACKET_SPEED
+	public static class RACKET
+	{
+		public const float SPEED = 0.7f;
+		public const int HP = 1;
+	}
+	public static class BALL
+	{
+		public const float SPEED = 0.4f;
+		public const float SPEED_MULTIPLIER = 2600; // Для единой системы скорости BALL_SPEED и RACKET_SPEED
+	}
 
 	public static class PLATFORM
 	{

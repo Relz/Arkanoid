@@ -41,17 +41,17 @@ public class Racket : MonoBehaviour
 			direction = DirectionX.Right;
 			m_lastDirection = direction;
 		}
-		gameObject.transform.Translate((float)direction * Constant.RACKET_SPEED, 0, 0, Space.Self);
+		gameObject.transform.Translate((float)direction * Constant.RACKET.SPEED, 0, 0, Space.Self);
 		if (!m_doesStarted)
 		{
-			ballObj.transform.Translate((float)direction * Constant.RACKET_SPEED, 0, 0, Space.Self);
+			ballObj.transform.Translate((float)direction * Constant.RACKET.SPEED, 0, 0, Space.Self);
 		}
 		if (!m_doesStarted && Input.GetKey(KeyCode.Space))
 		{
 			m_doesStarted = true;
 			m_ballRigidbody.AddRelativeForce(
-				(float)m_lastDirection * Constant.BALL_SPEED * Constant.BALL_SPEED_MULTIPLIER / 2, 
-				Constant.BALL_SPEED * Constant.BALL_SPEED_MULTIPLIER, 
+				(float)m_lastDirection * Constant.BALL.SPEED * Constant.BALL.SPEED_MULTIPLIER / 2, 
+				Constant.BALL.SPEED * Constant.BALL.SPEED_MULTIPLIER, 
 				0);
 		}
 	}
@@ -72,6 +72,16 @@ public class Racket : MonoBehaviour
 		return m_doesStarted;
 	}
 
+	public static uint GetLives()
+	{
+		return m_lives;
+	}
+
+	public static void DecrementLives()
+	{
+		--m_lives;
+	}
+
 	public GameObject ballObj;
 	public GameObject leftWallObj;
 	public GameObject rightWallObj;
@@ -84,4 +94,5 @@ public class Racket : MonoBehaviour
 	private static DirectionX m_lastDirection = DirectionX.None;
 	private static bool m_doesStarted = false;
 	private static int m_strength = 1;
+	private static uint m_lives = Constant.RACKET.HP;
 }

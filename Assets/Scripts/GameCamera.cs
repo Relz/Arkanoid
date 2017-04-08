@@ -1,7 +1,11 @@
 ﻿using UnityEngine;
 
-public class CameraScript : MonoBehaviour 
+public class GameCamera : MonoBehaviour 
 {
+	private void Start()
+	{
+		gameCamera = gameObject.GetComponent<Camera>();
+	}
 	void Update()
 	{
 		Vector3 position = gameObject.transform.position;
@@ -14,6 +18,12 @@ public class CameraScript : MonoBehaviour
 		gameObject.transform.rotation = rotation;
 	}
 
+	public static void SetActive(bool value)
+	{
+		gameCamera.enabled = value;
+	}
+
 	public GameObject racket;
 	public GameObject ball;
+	private static Camera gameCamera;
 }

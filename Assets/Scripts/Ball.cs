@@ -14,7 +14,6 @@ public class Ball : MonoBehaviour
 		{
 			m_ballRigidbody.AddRelativeForce(0.5f, 0, 0);
 		}
-		Debug.Log(ballDirection.y);
 		if (Racket.DoesStarted() && ballDirection.y <= 0.1f && ballDirection.y >= -0.1f)
 		{
 			m_ballRigidbody.AddRelativeForce(0, -0.5f, 0);
