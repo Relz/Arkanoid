@@ -21,21 +21,22 @@ public class Racket : MonoBehaviour
 		m_racket = gameObject;
 		m_width = gameObject.GetComponent<Collider>().bounds.size.x;
 		m_halfWidth = m_width / 2;
-		float halfCameraWidth = Camera.main.orthographicSize * Camera.main.aspect;
-		m_screenLeft = transform.position.x - halfCameraWidth;
-		m_screenRight = transform.position.x + halfCameraWidth;
+		Vector3 leftWallCollider = leftWallObj.GetComponent<Collider>().bounds.size;
+		Vector3 rightWallCollider = rightWallObj.GetComponent<Collider>().bounds.size;
+		m_leftWalRight = leftWallObj.transform.position.x + leftWallCollider.x;
+		m_rightWallLeft = rightWallObj.transform.position.x - rightWallCollider.x;
 		m_ballRigidbody = ballObj.GetComponent<Rigidbody>();
 	}
 	
 	void Update()
 	{
 		DirectionX direction = DirectionX.None;
-        if (Input.GetKey(KeyCode.LeftArrow) && gameObject.transform.position.x - m_halfWidth > m_screenLeft)
+		if (Input.GetKey(KeyCode.LeftArrow) && gameObject.transform.position.x - m_halfWidth > m_leftWalRight)
 		{
 			direction = DirectionX.Left;
 			m_lastDirection = direction;
 		}
-		if (Input.GetKey(KeyCode.RightArrow) && gameObject.transform.position.x + m_halfWidth < m_screenRight)
+		if (Input.GetKey(KeyCode.RightArrow) && gameObject.transform.position.x + m_halfWidth < m_rightWallLeft)
 		{
 			direction = DirectionX.Right;
 			m_lastDirection = direction;
@@ -66,13 +67,20 @@ public class Racket : MonoBehaviour
 		return m_strength;
 	}
 
+	public static bool DoesStarted()
+	{
+		return m_doesStarted;
+	}
+
 	public GameObject ballObj;
+	public GameObject leftWallObj;
+	public GameObject rightWallObj;
 	private static GameObject m_racket;
 	private static Rigidbody m_ballRigidbody;
 	private static float m_width = 0;
 	private static float m_halfWidth = 0;
-	private static float m_screenLeft = 0;
-	private static float m_screenRight = 0;
+	private static float m_leftWalRight = 0;
+	private static float m_rightWallLeft = 0;
 	private static DirectionX m_lastDirection = DirectionX.None;
 	private static bool m_doesStarted = false;
 	private static int m_strength = 1;

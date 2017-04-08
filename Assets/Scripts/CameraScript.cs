@@ -6,10 +6,10 @@ public class CameraScript : MonoBehaviour
 	{
 		Vector3 position = gameObject.transform.position;
 		Quaternion rotation = gameObject.transform.rotation;
-		position.x = racket.transform.position.x / 10;
-		position.y = ball.transform.position.y / 10;
-		rotation.y = -position.x / 20;
-		rotation.x = position.y / 10;
+		position.x = racket.transform.position.x / 20;
+		position.y = ball.transform.position.y / 20;
+		rotation.y = -position.x / 40;
+		rotation.x = position.y / 20;
 		gameObject.transform.position = position;
 		gameObject.transform.rotation = rotation;
 	}

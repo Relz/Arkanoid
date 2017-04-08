@@ -2,7 +2,7 @@
 public static class Constant 
 {
 	public const float RACKET_SPEED = 0.7f;
-	public const float BALL_SPEED = 0.3f;
+	public const float BALL_SPEED = 0.4f;
 	public const float BALL_SPEED_MULTIPLIER = 2600; // Для единой системы скорости BALL_SPEED и RACKET_SPEED
 
 	public static class PLATFORM
